@@ -65,19 +65,19 @@ export const MatchCard: React.FC<Props> = ({ match, homeTeam, awayTeam }) => {
             {mode === 'EASY' && (
                 <div className="easy-controls">
                     <button
-                        className={`btn-easy ${match.result === 'HOME_WIN' ? 'active' : ''}`}
+                        className={`btn-easy win-btn ${match.result === 'HOME_WIN' ? 'active' : ''}`}
                         onClick={() => handleEasyResult('HOME_WIN')}
                     >
                         W
                     </button>
                     <button
-                        className={`btn-easy ${match.result === 'DRAW' ? 'active' : ''}`}
+                        className={`btn-easy draw-btn ${match.result === 'DRAW' ? 'active' : ''}`}
                         onClick={() => handleEasyResult('DRAW')}
                     >
                         D
                     </button>
                     <button
-                        className={`btn-easy ${match.result === 'AWAY_WIN' ? 'active' : ''}`}
+                        className={`btn-easy win-btn ${match.result === 'AWAY_WIN' ? 'active' : ''}`}
                         onClick={() => handleEasyResult('AWAY_WIN')}
                     >
                         W

@@ -1,6 +1,6 @@
 .match-card {
-    padding: 1rem;
-    margin-bottom: 0.75rem;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
     transition: all var(--transition-normal);
     border: 1px solid var(--border-subtle);
 }
@@ -80,19 +80,20 @@
 
 .score-input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .easy-controls {
     display: flex;
     justify-content: space-between;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     gap: 0.5rem;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
 }
 
 .btn-easy {
     flex: 1;
-    padding: 0.5rem;
+    padding: 0.3rem;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-secondary);
@@ -106,9 +107,17 @@
     color: white;
 }
 
-.btn-easy.active {
+.btn-easy.draw-btn.active {
     background: var(--color-primary);
-    color: black;
+    color: #000;
     border-color: var(--color-primary);
     box-shadow: var(--glow-primary);
+}
+
+.btn-easy.win-btn.active {
+    background: #00e676;
+    /* Vivid Green */
+    color: #000;
+    border-color: #00e676;
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
 }
