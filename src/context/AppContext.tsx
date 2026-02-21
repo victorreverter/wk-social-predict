@@ -14,6 +14,7 @@ interface AppContextType {
     updateKnockoutMatchScore: (matchId: string, score: MatchScore) => void;
     updateKnockoutMatchEasyResult: (matchId: string, result: ResultType) => void;
     setSelectedThirds: (teamIds: string[]) => void;
+    setThirdsModalDismissed: (dismissed: boolean) => void;
     resetPredictions: () => void;
     autoFillGroups: () => void;
 }
@@ -24,6 +25,7 @@ const getFreshState = (): AppState => ({
     groupMatches: generateInitialGroupMatches(),
     knockoutMatches: generateInitialKnockoutMatches(),
     selectedThirds: [],
+    isThirdsModalDismissed: false,
 });
 
 const initialState: AppState = getFreshState();
@@ -148,6 +150,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         });
     };
 
+    const setThirdsModalDismissed = (dismissed: boolean) => {
+        setState(prev => ({ ...prev, isThirdsModalDismissed: dismissed }));
+    };
+
     const autoFillGroups = () => {
         setState(prev => {
             const tempGroups = { ...prev.groupMatches };
@@ -182,6 +188,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 updateKnockoutMatchScore,
                 updateKnockoutMatchEasyResult,
                 setSelectedThirds,
+                setThirdsModalDismissed,
                 resetPredictions,
                 autoFillGroups
             }}

@@ -50,4 +50,5 @@ export interface AppState {
   groupMatches: Record<string, Match>; // key is match ID
   knockoutMatches: Record<string, Match>;
   selectedThirds: string[]; // IDs of the chosen 8 best 3rd placed teams
+  isThirdsModalDismissed: boolean;
 }

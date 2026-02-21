@@ -5,7 +5,7 @@ import { initialTeams } from '../../utils/data-init';
 import './ThirdPlaceSelection.css';
 
 export const ThirdPlaceSelection: React.FC = () => {
-    const { state, setSelectedThirds, setActiveTab } = useApp();
+    const { state, setSelectedThirds, setActiveTab, setThirdsModalDismissed } = useApp();
     const { groupMatches, selectedThirds } = state;
 
     const totalGroupMatches = Object.keys(groupMatches).length;
@@ -16,24 +16,23 @@ export const ThirdPlaceSelection: React.FC = () => {
     const needsSelection = isGroupsFinished && selectedThirds.length !== 8;
 
     const [localSelection, setLocalSelection] = useState<string[]>([]);
-    const [isDismissed, setIsDismissed] = useState<boolean>(false);
 
     // If teams get un-finished or something, clear layout
     useEffect(() => {
         if (!needsSelection) {
             setLocalSelection([]);
-            setIsDismissed(false);
+            setThirdsModalDismissed(false);
         }
-    }, [needsSelection]);
+    }, [needsSelection, setThirdsModalDismissed]);
 
     // Automatically pop up if the active tab is bracket and we need selection
     useEffect(() => {
         if (state.activeTab === 'BRACKET' && needsSelection) {
-            setIsDismissed(false);
+            setThirdsModalDismissed(false);
         }
-    }, [state.activeTab, needsSelection]);
+    }, [state.activeTab, needsSelection, setThirdsModalDismissed]);
 
-    if (!needsSelection || isDismissed) return null;
+    if (!needsSelection || state.isThirdsModalDismissed) return null;
 
     const { allThirds, best8Thirds } = determineQualifiedTeams(groupMatches);
 
@@ -103,7 +102,7 @@ export const ThirdPlaceSelection: React.FC = () => {
                     >
                         Confirm & Generate Bracket
                     </button>
-                    <button className="btn-cancel" onClick={() => { setIsDismissed(true); setActiveTab('GROUP'); }}>
+                    <button className="btn-cancel" onClick={() => { setThirdsModalDismissed(true); setActiveTab('GROUP'); }}>
                         Go Back to Edit Matches
                     </button>
                 </div>

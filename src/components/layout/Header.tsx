@@ -2,8 +2,12 @@ import { useApp } from '../../context/AppContext';
 import './Header.css';
 
 export const Header: React.FC = () => {
-    const { state, setMode, setActiveTab, resetPredictions, autoFillGroups } = useApp();
-    const { mode, activeTab } = state;
+    const { state, setMode, setActiveTab, resetPredictions, autoFillGroups, setThirdsModalDismissed } = useApp();
+    const { mode, activeTab, groupMatches } = state;
+
+    const totalGroupMatches = Object.keys(groupMatches).length;
+    const completedGroupMatches = Object.values(groupMatches).filter(m => m.status === 'FINISHED').length;
+    const isGroupsFinished = totalGroupMatches === 72 && completedGroupMatches === 72;
 
     return (
         <header className="app-header glass-panel">
@@ -46,6 +50,15 @@ export const Header: React.FC = () => {
                 <button className="reset-btn" onClick={resetPredictions}>
                     Reset
                 </button>
+                {isGroupsFinished && (
+                    <button
+                        className="reset-btn"
+                        style={{ background: 'var(--neon-green)', color: 'var(--bg-dark)' }}
+                        onClick={() => setThirdsModalDismissed(false)}
+                    >
+                        Select 3rds
+                    </button>
+                )}
                 <button className="reset-btn" style={{ background: 'var(--color-tertiary)' }} onClick={autoFillGroups}>
                     Auto-Fill Groups
                 </button>
