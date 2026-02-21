@@ -45,7 +45,12 @@ export const GroupStandings: React.FC<Props> = ({ group, standings }) => {
                 `}
                             >
                                 <td className="pos-col">{index + 1}</td>
-                                <td className="team-col font-semibold">{teamInfo?.name || standing.teamId}</td>
+                                <td className="team-col font-semibold">
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <img src={`${import.meta.env.BASE_URL}flags/${teamInfo?.code || 'PO-A'}.svg`} className="team-flag" alt="" />
+                                        <span>{teamInfo?.name || standing.teamId}</span>
+                                    </div>
+                                </td>
                                 <td>{standing.played}</td>
                                 <td>{standing.won}</td>
                                 <td>{standing.drawn}</td>

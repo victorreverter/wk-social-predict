@@ -33,7 +33,10 @@ export const BracketMatchNode: React.FC<Props> = ({ match, homeTeam, awayTeam })
     const renderTeam = (teamInfo?: Team, pens?: number | null, isHome: boolean = true) => {
         return (
             <div className={`bracket-team ${isHome ? 'home' : 'away'}`}>
-                <span className="team-name">{teamInfo ? teamInfo.name : 'TBD'}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', overflow: 'hidden' }}>
+                    {teamInfo && <img src={`${import.meta.env.BASE_URL}flags/${teamInfo.code}.svg`} className="team-flag" alt="" />}
+                    <span className="team-name">{teamInfo ? teamInfo.name : 'TBD'}</span>
+                </div>
 
                 {mode === 'HARD' ? (
                     <div className="score-inputs">

@@ -1,5 +1,5 @@
 .bracket-match-node {
-    width: 200px;
+    width: 155px;
     position: relative;
     border: 1px solid var(--border-subtle);
     transition: all var(--transition-normal);
@@ -36,8 +36,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0.75rem;
-    min-height: 48px;
+    padding: 0.35rem 0.5rem;
+    min-height: 40px;
     transition: background-color var(--transition-fast);
 }
 
@@ -51,12 +51,12 @@
 }
 
 .team-name {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 100px;
+    max-width: 80px;
 }
 
 .bracket-divider {
@@ -79,13 +79,13 @@
     text-align: center;
     font-family: var(--font-family-display);
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     transition: all var(--transition-fast);
 }
 
 .bracket-score-input {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
 }
 
 .pen-input {
@@ -117,8 +117,8 @@
 }
 
 .btn-easy-bracket {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 4px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border-subtle);
