@@ -54,8 +54,18 @@
 }
 
 .bracket-column.center-final {
-    justify-content: center;
+    justify-content: flex-start;
+    /* Start at the top so the title aligns with others */
     padding: 0 1rem;
+    /* height: 100%; */
+}
+
+.center-final-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    gap: 1.5rem;
 }
 
 .matches-vertical-flow.final-flow {
@@ -114,4 +124,69 @@
 .stage-sf .right-connector::after,
 .center-connector::after {
     display: none;
+}
+
+.champion-display {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    animation: pulseGlow 2s infinite alternate;
+}
+
+.champion-title {
+    color: #ffd700;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    font-weight: 800;
+}
+
+.champion-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 1rem 2rem;
+    border-radius: 12px;
+}
+
+.champion-flag {
+    width: 60px;
+    height: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.champion-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: white;
+}
+
+.third-place-container {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.third-title {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+@keyframes pulseGlow {
+    from {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+    }
+
+    to {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    }
 }

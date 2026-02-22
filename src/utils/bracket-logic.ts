@@ -44,6 +44,7 @@ export const generateInitialKnockoutMatches = (): Record<string, Match> => {
         { name: 'R16', count: 8 },
         { name: 'QF', count: 4 },
         { name: 'SF', count: 2 },
+        { name: '3RD', count: 1 },
         { name: 'F', count: 1 }
     ];
 
@@ -206,6 +207,41 @@ export const updateKnockoutBracket = (
             }
         }
     });
+
+    const getMatchLoser = (match?: Match): string => {
+        if (!match) return 'TBD';
+        if (match.status !== 'FINISHED') return 'TBD';
+        if (match.result === 'HOME_WIN') return match.awayTeamId;
+        if (match.result === 'AWAY_WIN') return match.homeTeamId;
+
+        // For HARD mode score checking
+        if (match.score.homeGoals !== null && match.score.awayGoals !== null) {
+            if (match.score.homeGoals > match.score.awayGoals) return match.awayTeamId;
+            if (match.score.homeGoals < match.score.awayGoals) return match.homeTeamId;
+            // Penalties
+            if (match.score.homePenalties !== null && match.score.homePenalties !== undefined && match.score.awayPenalties !== null && match.score.awayPenalties !== undefined) {
+                if (match.score.homePenalties > match.score.awayPenalties) return match.awayTeamId;
+                if (match.score.homePenalties < match.score.awayPenalties) return match.homeTeamId;
+            }
+        }
+        return 'TBD';
+    };
+
+    // Handle 3rd Place Match
+    const sf1 = newKnockout['k_SF_1'];
+    const sf2 = newKnockout['k_SF_2'];
+    const thirdMatchId = 'k_3RD_1';
+    if (newKnockout[thirdMatchId]) {
+        const home3rd = getMatchLoser(sf1);
+        const away3rd = getMatchLoser(sf2);
+        if (newKnockout[thirdMatchId].homeTeamId !== home3rd || newKnockout[thirdMatchId].awayTeamId !== away3rd) {
+            newKnockout[thirdMatchId] = {
+                ...newKnockout[thirdMatchId],
+                homeTeamId: home3rd,
+                awayTeamId: away3rd
+            };
+        }
+    }
 
     return newKnockout;
 };

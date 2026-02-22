@@ -1,7 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
 import type { AppState, PredictionMode, ViewTab, MatchScore, ResultType, Match, MatchStatus } from '../types';
-import { useLocalStorage } from '../hooks/useLocalStorage';
 import { generateInitialGroupMatches } from '../utils/data-init';
 import { generateInitialKnockoutMatches, updateKnockoutBracket } from '../utils/bracket-logic';
 

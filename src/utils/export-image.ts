@@ -1,4 +1,4 @@
-import type { Match, Team } from '../types';
+import type { Match } from '../types';
 import { initialTeams } from './data-init';
 
 export const exportBracketToImage = async (
@@ -12,8 +12,8 @@ export const exportBracketToImage = async (
         if (!ctx) throw new Error('Could not get 2D context');
 
         // Bracket Canvas Dimensions
-        canvas.width = 1600;
-        canvas.height = 1000;
+        canvas.width = 1920;
+        canvas.height = 1080;
 
         // Background
         ctx.fillStyle = '#0a0a0c';
@@ -22,7 +22,7 @@ export const exportBracketToImage = async (
         // Styling Config
         const boxWidth = 160;
         const boxHeight = 50;
-        const roundSpacing = 220; // X distance between rounds
+        const roundSpacing = 195; // X distance between rounds
         const colors = {
             border: '#2a2a35',
             text: '#ffffff',
@@ -91,34 +91,104 @@ export const exportBracketToImage = async (
         const rightSF = matchesList.filter(m => m.stage === 'SF').slice(1);
 
         const finalMatch = matchesList.find(m => m.stage === 'F');
+        const thirdMatch = matchesList.find(m => m.stage === '3RD');
+
+        const getMatchWinner = (match?: Match): string => {
+            if (!match || match.status !== 'FINISHED') return 'TBD';
+            if (match.result === 'HOME_WIN') return match.homeTeamId;
+            if (match.result === 'AWAY_WIN') return match.awayTeamId;
+            if (match.score.homeGoals !== null && match.score.awayGoals !== null) {
+                if (match.score.homeGoals > match.score.awayGoals) return match.homeTeamId;
+                if (match.score.homeGoals < match.score.awayGoals) return match.awayTeamId;
+                if (match.score.homePenalties !== null && match.score.homePenalties !== undefined && match.score.awayPenalties !== null && match.score.awayPenalties !== undefined) {
+                    if (match.score.homePenalties > match.score.awayPenalties) return match.homeTeamId;
+                    if (match.score.homePenalties < match.score.awayPenalties) return match.awayTeamId;
+                }
+            }
+            return 'TBD';
+        };
+
+        const championId = getMatchWinner(finalMatch);
+        const championTeam = championId !== 'TBD' ? initialTeams.find(t => t.id === championId) : undefined;
 
         // Draw Left Bracket
         leftR32.forEach((m, i) => drawMatch(m, 50, 50 + i * 110));
         leftR16.forEach((m, i) => drawMatch(m, 50 + roundSpacing, 105 + i * 220));
         leftQF.forEach((m, i) => drawMatch(m, 50 + roundSpacing * 2, 215 + i * 440));
-        leftSF.forEach((m, i) => drawMatch(m, 50 + roundSpacing * 3, 435));
+        leftSF.forEach((m) => drawMatch(m, 50 + roundSpacing * 3, 435));
 
         // Draw Right Bracket
         rightR32.forEach((m, i) => drawMatch(m, canvas.width - boxWidth - 50, 50 + i * 110));
         rightR16.forEach((m, i) => drawMatch(m, canvas.width - boxWidth - 50 - roundSpacing, 105 + i * 220));
         rightQF.forEach((m, i) => drawMatch(m, canvas.width - boxWidth - 50 - roundSpacing * 2, 215 + i * 440));
-        rightSF.forEach((m, i) => drawMatch(m, canvas.width - boxWidth - 50 - roundSpacing * 3, 435));
+        rightSF.forEach((m) => drawMatch(m, canvas.width - boxWidth - 50 - roundSpacing * 3, 435));
 
         // Draw Final
         if (finalMatch) {
-            drawMatch(finalMatch, canvas.width / 2 - boxWidth / 2, 600);
+            drawMatch(finalMatch, canvas.width / 2 - boxWidth / 2, 435);
 
             ctx.fillStyle = '#10b981';
             ctx.font = 'bold 24px Inter, sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('FINAL', canvas.width / 2, 570);
+            ctx.fillText('FINAL', canvas.width / 2, 100);
         }
 
-        // Title
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 36px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('My 2026 World Cup Bracket Prediction', canvas.width / 2, 60);
+        // Draw 3rd Place
+        if (thirdMatch) {
+            drawMatch(thirdMatch, canvas.width / 2 - boxWidth / 2, 560);
+
+            ctx.fillStyle = '#a0aec0';
+            ctx.font = 'bold 16px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('3RD PLACE', canvas.width / 2, 535);
+        }
+
+        // Champion Display
+        if (championTeam) {
+            // Title
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 36px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('My 2026 World Cup Bracket Prediction', canvas.width / 2, 60);
+
+            // Champion UI directly over Final Match Box
+            ctx.fillStyle = '#ffd700'; // Gold
+            ctx.font = 'bold 32px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('CHAMPION', canvas.width / 2, 280);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 20px Inter, sans-serif';
+            ctx.fillText(championTeam.name, canvas.width / 2, 410);
+
+            // Draw flag
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.src = `${import.meta.env.BASE_URL}flags/${championTeam.code}.svg`;
+            await new Promise((resolve) => {
+                img.onload = resolve;
+                img.onerror = resolve; // Continue on error
+            });
+
+            // Draw a subtle badge background
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.1)';
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
+            ctx.lineWidth = 2;
+            const badgeWidth = 140;
+            const badgeHeight = 90;
+            ctx.fillRect(canvas.width / 2 - badgeWidth / 2, 295, badgeWidth, badgeHeight);
+            ctx.strokeRect(canvas.width / 2 - badgeWidth / 2, 295, badgeWidth, badgeHeight);
+
+            // Scale flag down slightly
+            ctx.drawImage(img, canvas.width / 2 - 35, 310, 70, 46);
+
+        } else {
+            // Standard Title
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 36px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('My 2026 World Cup Bracket Prediction', canvas.width / 2, 60);
+        }
 
         // Convert to JPG
         const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
