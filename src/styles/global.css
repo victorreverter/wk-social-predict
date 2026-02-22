@@ -66,19 +66,21 @@ body {
 body::before {
   content: '';
   position: fixed;
-  top: -50vh;
-  left: -50vw;
-  width: 200vw;
-  height: 200vh;
-  /* Animated blur gradient in dark, green, violet palette */
+  top: -20vh;
+  left: -20vw;
+  width: 140vw;
+  height: 140vh;
+  /* Lava Lamp animated gradients */
   background-image:
-    radial-gradient(circle at 30% 30%, rgba(0, 230, 118, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 70% 70%, rgba(169, 0, 255, 0.15) 0%, transparent 45%),
-    radial-gradient(circle at 60% 30%, rgba(169, 0, 255, 0.1) 0%, transparent 35%);
+    radial-gradient(circle at 50% 50%, rgba(0, 230, 118, 0.25) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(169, 0, 255, 0.25) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(169, 0, 255, 0.2) 0%, transparent 50%);
+  background-size: 80vw 80vh, 100vw 100vh, 60vw 60vh;
+  background-repeat: no-repeat;
   filter: blur(80px);
   z-index: -2;
   pointer-events: none;
-  animation: ambientDrift 20s ease-in-out infinite alternate;
+  animation: lavaLamp 25s ease-in-out infinite alternate;
 }
 
 body::after {
@@ -95,17 +97,21 @@ body::after {
   pointer-events: none;
 }
 
-@keyframes ambientDrift {
+@keyframes lavaLamp {
   0% {
-    transform: translate(0, 0) scale(1);
+    background-position: 0vw 0vh, 60vw 60vh, 40vw 20vh;
   }
 
-  50% {
-    transform: translate(-3%, 3%) scale(1.05);
+  33% {
+    background-position: 60vw 20vh, 20vw 70vh, 80vw 40vh;
+  }
+
+  66% {
+    background-position: 30vw 70vh, 70vw 10vh, 20vw 60vh;
   }
 
   100% {
-    transform: translate(3%, -3%) scale(1);
+    background-position: 80vw 30vh, 10vw 40vh, 50vw 80vh;
   }
 }
 
