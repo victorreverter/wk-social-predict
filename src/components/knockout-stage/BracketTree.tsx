@@ -84,17 +84,12 @@ export const BracketTree: React.FC = () => {
                         <input
                             type="text"
                             className="user-prediction-input"
-                            placeholder="Your Name"
+                            placeholder="Enter Prediction Name..."
                             value={userName}
                             onChange={(e) => setUserName(e.target.value)}
-                            maxLength={25}
+                            maxLength={40}
                             autoComplete="off"
-                            style={{
-                                width: userName ? `calc(${userName.length}ch + 2px)` : '140px',
-                                transition: 'width 0.1s'
-                            }}
                         />
-                        <span className="prediction-suffix">'s Prediction</span>
                     </div>
                 </div>
 
