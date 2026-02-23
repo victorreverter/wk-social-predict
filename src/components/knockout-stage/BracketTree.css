@@ -114,8 +114,7 @@
     display: flex;
     width: 100%;
     min-width: 800px;
-    /* Only scroll on very small screens */
-    gap: 0.5vw;
+    gap: 4px;
     justify-content: center;
     align-items: stretch;
 }
@@ -129,7 +128,7 @@
 
 .bracket-column.center-final {
     justify-content: flex-start;
-    padding: 0 0.5vw;
+    padding: 0 8px;
     flex: 1.5 1 0;
     /* Give the center slightly more real estate */
 }
@@ -224,8 +223,8 @@
 }
 
 .champion-trophy {
-    height: clamp(120px, 15vw, 265px);
-    width: clamp(80px, 12vw, 200px);
+    height: 180px;
+    width: 120px;
     object-fit: contain;
     filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
 }
