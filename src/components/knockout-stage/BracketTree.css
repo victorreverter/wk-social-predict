@@ -20,7 +20,7 @@
 
 .prediction-input-wrapper {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: center;
     border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     padding: 0.25rem 0;
@@ -38,11 +38,10 @@
     color: white;
     font-size: 1.5rem;
     font-family: var(--font-family-display);
-    font-weight: 700;
-    text-align: right;
     width: auto;
     padding: 0;
     margin: 0;
+    line-height: 1;
 }
 
 .user-prediction-input:focus {
@@ -54,6 +53,7 @@
     font-size: 1.5rem;
     font-family: var(--font-family-display);
     font-weight: 700;
+    line-height: 1;
 }
 
 .user-prediction-input::placeholder {
