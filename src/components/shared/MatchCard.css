@@ -121,3 +121,33 @@
     border-color: #00e676;
     box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
 }
+
+@media (max-width: 480px) {
+    .match-card {
+        padding: 0.5rem;
+    }
+
+    .match-teams {
+        gap: 0.5rem;
+    }
+
+    .team-name {
+        font-size: 0.8rem;
+    }
+
+    .score-input {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    .team-flag {
+        width: 20px;
+        height: 14px;
+    }
+
+    .btn-easy {
+        font-size: 0.7rem;
+        padding: 0.2rem;
+    }
+}

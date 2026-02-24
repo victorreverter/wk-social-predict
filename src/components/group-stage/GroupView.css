@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    width: 95%;
     max-width: var(--max-width);
     margin: 0 auto;
     margin: 0 auto;
@@ -10,28 +11,12 @@
 .group-selector-ribbon {
     display: flex;
     justify-content: center;
-    overflow-x: auto;
+    flex-wrap: wrap;
     gap: 0.5rem;
     /* background: rgba(255, 255, 255, 0.03);
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     margin-bottom: 2rem; */
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-primary) transparent;
-}
-
-/* Custom scrollbar for webkit (Chrome/Safari) */
-.group-selector-ribbon::-webkit-scrollbar {
-    height: 4px;
-}
-
-.group-selector-ribbon::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.group-selector-ribbon::-webkit-scrollbar-thumb {
-    background-color: var(--color-primary);
-    border-radius: 10px;
 }
 
 .group-tab-btn {
@@ -107,4 +92,18 @@
     margin-bottom: 0.25rem;
     padding-bottom: 0.25rem;
     border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 480px) {
+    .group-selector-ribbon {
+        gap: 0.3rem;
+    }
+
+    .group-tab-btn {
+        flex: 0 0 calc((100% - 1.5rem) / 6);
+        /* 5 gaps of 0.3rem = 1.5rem total gap space */
+        padding: 0.4rem 0;
+        font-size: 0.85rem;
+        text-align: center;
+    }
 }
