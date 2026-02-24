@@ -14,11 +14,18 @@ export const exportBracketToImage = async (
         // Temporarily adjust styling to capture the full overflowing bracket correctly
         const originalOverflow = scrollContainer.style.overflow;
         const originalMaxWidth = wrapperElement.style.maxWidth;
+        // The wrapper's parent restricts bounds, so we must force it to expand as well
+        const wrapperParent = wrapperElement.parentElement;
+        const originalParentWidth = wrapperParent ? wrapperParent.style.width : '';
 
+        if (wrapperParent) {
+            wrapperParent.style.width = 'fit-content';
+        }
         scrollContainer.style.overflow = 'visible';
         wrapperElement.style.maxWidth = 'none';
+        wrapperElement.style.width = 'max-content';
 
-        // Calculate explicit dimensions to prevent Mobile Safari viewport cropping
+        // 1. Calculate the true, uncropped width of the entire Bracket matrix
         const targetWidth = scrollContainer.scrollWidth;
         const targetHeight = scrollContainer.scrollHeight;
 
@@ -32,6 +39,7 @@ export const exportBracketToImage = async (
             allowTaint: true,
             backgroundColor: '#0a0a0c', // Ensure the background bleeds correctly
             logging: false,
+            // 2. FORCE html2canvas to render the entire width, ignoring the phone's narrow screen limits
             width: targetWidth,
             height: targetHeight,
             windowWidth: targetWidth,
@@ -39,8 +47,12 @@ export const exportBracketToImage = async (
         });
 
         // Restore styles
+        if (wrapperParent) {
+            wrapperParent.style.width = originalParentWidth;
+        }
         scrollContainer.style.overflow = originalOverflow;
         wrapperElement.style.maxWidth = originalMaxWidth;
+        wrapperElement.style.width = '';
 
         const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
 
