@@ -44,6 +44,9 @@ export const exportBracketToImage = async (
             height: targetHeight,
             windowWidth: targetWidth,
             windowHeight: targetHeight,
+            // 3. FORCE the capture camera to shift to the actual scroll position so it doesn't crop the right side
+            x: scrollContainer.scrollLeft,
+            scrollX: 0
         });
 
         // Restore styles
