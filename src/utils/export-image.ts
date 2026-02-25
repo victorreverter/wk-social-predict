@@ -60,26 +60,42 @@ export const exportBracketToImage = async (
     try {
         const wrapperElement = document.getElementById('bracket-export-target');
         const scrollContainer = wrapperElement?.querySelector('.bracket-scroll-container') as HTMLElement;
+        const bracketColumns = wrapperElement?.querySelector('.bracket-columns') as HTMLElement;
 
         if (!wrapperElement || !scrollContainer) throw new Error('Bracket element not found');
 
-        // Measure the full uncropped width before touching anything
+        const isMobile = window.innerWidth <= 768;
+
+        // ── Save originals ────────────────────────────────────────────────────
+        const origOverflow = scrollContainer.style.overflow;
+        const origMaxWidth = wrapperElement.style.maxWidth;
+        const origWrapWidth = wrapperElement.style.width;
+        const origColWidth = bracketColumns?.style.width ?? '';
+
+        // Measure the true content width BEFORE touching overflow
         const fullWidth = scrollContainer.scrollWidth;
         const fullHeight = scrollContainer.scrollHeight;
 
-        const originalOverflow = scrollContainer.style.overflow;
-        const originalMaxWidth = wrapperElement.style.maxWidth;
-
+        // ── Expand layout for capture ─────────────────────────────────────────
         scrollContainer.style.overflow = 'visible';
         wrapperElement.style.maxWidth = 'none';
 
-        const isMobile = window.innerWidth <= 768;
-        const exportScale = isMobile ? 1.5 : 2;
+        if (isMobile) {
+            // Physically widen the wrapper to the bracket's full scrollable width.
+            wrapperElement.style.width = `${fullWidth}px`;
+
+            // IMPORTANT: also lock bracket-columns to the same explicit width so that
+            // "flex: 1 1 0" columns don't stretch and create giant empty gaps.
+            // Setting it to an explicit px == "use exactly this space, don't grow."
+            if (bracketColumns) bracketColumns.style.width = `${fullWidth}px`;
+        }
 
         // On mobile: pre-rasterize all SVG flags to PNG so html2canvas renders them properly
         const restoreSvgs = isMobile
             ? await rasterizeSvgFlags(wrapperElement)
             : () => { };
+
+        const exportScale = isMobile ? 1.5 : 2;
 
         const canvas = await html2canvas(wrapperElement, {
             scale: exportScale,
@@ -87,28 +103,26 @@ export const exportBracketToImage = async (
             allowTaint: true,
             backgroundColor: '#0a0a0c',
             logging: false,
-            // Simulate a wide viewport so "width: 100%" resolves to the full bracket width
             windowWidth: fullWidth,
             windowHeight: fullHeight,
         });
 
-        // Restore everything
+        // ── Restore everything ────────────────────────────────────────────────
         restoreSvgs();
-        scrollContainer.style.overflow = originalOverflow;
-        wrapperElement.style.maxWidth = originalMaxWidth;
+        scrollContainer.style.overflow = origOverflow;
+        wrapperElement.style.maxWidth = origMaxWidth;
+        wrapperElement.style.width = origWrapWidth;
+        if (bracketColumns) bracketColumns.style.width = origColWidth;
 
-        // Mobile: use Web Share API (link.click() is blocked in async context on iOS/Android)
+        // Mobile: Web Share API (link.click() is blocked in async context on iOS/Android)
         // Desktop: direct download via anchor click
         const blob = await new Promise<Blob>((resolve, reject) =>
-            canvas.toBlob((b) => b ? resolve(b) : reject(new Error('Canvas toBlob failed')), 'image/jpeg', 0.95)
+            canvas.toBlob((b) => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/jpeg', 0.95)
         );
 
         const file = new File([blob], filename, { type: 'image/jpeg' });
         if (isMobile && navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-                files: [file],
-                title: 'My WC 2026 Bracket',
-            });
+            await navigator.share({ files: [file], title: 'My WC 2026 Bracket' });
         } else {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
