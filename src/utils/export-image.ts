@@ -12,7 +12,7 @@ function svgToPng(svgUrl: string, w: number, h: number): Promise<string> {
         img.crossOrigin = 'anonymous';
         img.onload = () => {
             const cvs = document.createElement('canvas');
-            cvs.width = w * 3;   // 3× for sharpness
+            cvs.width = w * 3;
             cvs.height = h * 3;
             const ctx = cvs.getContext('2d');
             if (!ctx) return reject(new Error('No 2d context'));
@@ -45,7 +45,7 @@ async function rasterizeSvgFlags(container: HTMLElement): Promise<() => void> {
                 restoreMap.push({ img, original: img.src });
                 img.src = png;
             } catch {
-                // Leave as-is if anything fails — better partial than crash
+                // Leave as-is if anything fails
             }
         })
     );
@@ -71,8 +71,16 @@ export const exportBracketToImage = async (
         const origMaxWidth = wrapperElement.style.maxWidth;
         const origWrapWidth = wrapperElement.style.width;
         const origColWidth = bracketColumns?.style.width ?? '';
+        const origColMinWidth = bracketColumns?.style.minWidth ?? '';
 
-        // Measure the true content width BEFORE touching overflow
+        if (isMobile && bracketColumns) {
+            // The CSS min-width of 800px is too narrow for 9 bracket columns.
+            // Force a generous minimum so scrollWidth gives us the real content width,
+            // and each column gets enough room (~155px each for 9 cols in 1400px).
+            bracketColumns.style.minWidth = '1400px';
+        }
+
+        // Measure the true content width AFTER forcing the comfortable minimum
         const fullWidth = scrollContainer.scrollWidth;
         const fullHeight = scrollContainer.scrollHeight;
 
@@ -81,12 +89,10 @@ export const exportBracketToImage = async (
         wrapperElement.style.maxWidth = 'none';
 
         if (isMobile) {
-            // Physically widen the wrapper to the bracket's full scrollable width.
+            // Physically widen the wrapper so html2canvas captures the full bracket.
             wrapperElement.style.width = `${fullWidth}px`;
-
-            // IMPORTANT: also lock bracket-columns to the same explicit width so that
-            // "flex: 1 1 0" columns don't stretch and create giant empty gaps.
-            // Setting it to an explicit px == "use exactly this space, don't grow."
+            // Set bracketColumns to the same explicit px so flex:1 columns
+            // don't stretch beyond their natural content size.
             if (bracketColumns) bracketColumns.style.width = `${fullWidth}px`;
         }
 
@@ -112,10 +118,13 @@ export const exportBracketToImage = async (
         scrollContainer.style.overflow = origOverflow;
         wrapperElement.style.maxWidth = origMaxWidth;
         wrapperElement.style.width = origWrapWidth;
-        if (bracketColumns) bracketColumns.style.width = origColWidth;
+        if (bracketColumns) {
+            bracketColumns.style.width = origColWidth;
+            bracketColumns.style.minWidth = origColMinWidth;
+        }
 
         // Mobile: Web Share API (link.click() is blocked in async context on iOS/Android)
-        // Desktop: direct download via anchor click
+        // Desktop: direct download via anchor click — completely unchanged
         const blob = await new Promise<Blob>((resolve, reject) =>
             canvas.toBlob((b) => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/jpeg', 0.95)
         );
