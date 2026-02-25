@@ -77,7 +77,7 @@ export const exportBracketToImage = async (
             // The CSS min-width of 800px is too narrow for 9 bracket columns.
             // Force a generous minimum so scrollWidth gives us the real content width,
             // and each column gets enough room (~155px each for 9 cols in 1400px).
-            bracketColumns.style.minWidth = '1400px';
+            bracketColumns.style.minWidth = '1700px';
         }
 
         // Measure the true content width AFTER forcing the comfortable minimum
