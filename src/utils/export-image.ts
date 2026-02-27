@@ -9,7 +9,6 @@ import type { Match } from '../types';
 function svgToPng(svgUrl: string, w: number, h: number): Promise<string> {
     return new Promise((resolve, reject) => {
         const img = new Image();
-        img.crossOrigin = 'anonymous';
         img.onload = () => {
             const cvs = document.createElement('canvas');
             cvs.width = w * 3;

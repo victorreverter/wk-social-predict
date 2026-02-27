@@ -38,7 +38,7 @@ export const BracketMatchNode: React.FC<Props> = React.memo(({ match, homeTeam, 
         return (
             <div className={`bracket-team ${isHome ? 'home' : 'away'}`}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', overflow: 'hidden' }}>
-                    {teamInfo && <img src={`${import.meta.env.BASE_URL}flags/${teamInfo.code}.svg`} className="team-flag" crossOrigin="anonymous" width={24} height={16} alt="" />}
+                    {teamInfo && <img src={`${import.meta.env.BASE_URL}flags/${teamInfo.code}.svg`} className="team-flag" width={24} height={16} alt="" />}
                     <span className="team-name full">{teamInfo ? teamInfo.name : 'TBD'}</span>
                     <span className="team-name abbr">{teamInfo ? teamInfo.code : 'TBD'}</span>
                 </div>
