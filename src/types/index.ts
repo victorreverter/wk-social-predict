@@ -4,6 +4,7 @@ export type PredictionMode = 'EASY' | 'HARD';
 export type ViewTab = 'GROUP' | 'BRACKET';
 export type MatchStatus = 'NOT_PLAYED' | 'FINISHED';
 export type ResultType = 'HOME_WIN' | 'AWAY_WIN' | 'DRAW';
+export type Theme = 'light' | 'dark';
 
 export interface Team {
   id: string;
@@ -46,6 +47,7 @@ export interface GroupStanding {
 
 export interface AppState {
   mode: PredictionMode;
+  theme: Theme;
   activeTab: ViewTab;
   groupMatches: Record<string, Match>; // key is match ID
   knockoutMatches: Record<string, Match>;

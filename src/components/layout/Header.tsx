@@ -1,4 +1,5 @@
 import { useApp } from '../../context/AppContext';
+import { ThemeToggle } from '../shared/ThemeToggle';
 import './Header.css';
 
 export const Header: React.FC = () => {
@@ -61,6 +62,7 @@ export const Header: React.FC = () => {
                 <button className="auto-fill-btn" onClick={autoFillGroups}>
                     Auto-Fill Groups
                 </button>
+                <ThemeToggle />
             </div>
         </header>
     );

@@ -1,12 +1,13 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import type { AppState, PredictionMode, ViewTab, MatchScore, ResultType, Match, MatchStatus } from '../types';
+import type { AppState, PredictionMode, ViewTab, MatchScore, ResultType, Match, MatchStatus, Theme } from '../types';
 import { generateInitialGroupMatches } from '../utils/data-init';
 import { generateInitialKnockoutMatches, updateKnockoutBracket } from '../utils/bracket-logic';
 
 interface AppContextType {
     state: AppState;
     setMode: (mode: PredictionMode) => void;
+    setTheme: (theme: Theme) => void;
     setActiveTab: (tab: ViewTab) => void;
     updateGroupMatchScore: (matchId: string, score: MatchScore) => void;
     updateGroupMatchEasyResult: (matchId: string, result: ResultType) => void;
@@ -18,14 +19,28 @@ interface AppContextType {
     autoFillGroups: () => void;
 }
 
-const getFreshState = (): AppState => ({
-    mode: 'EASY',
-    activeTab: 'GROUP',
-    groupMatches: generateInitialGroupMatches(),
-    knockoutMatches: generateInitialKnockoutMatches(),
-    selectedThirds: [],
-    isThirdsModalDismissed: false,
-});
+const getFreshState = (): AppState => {
+    // Try to restore user theme preference; if none, default to 'dark'
+    let initialTheme: Theme = 'dark';
+    try {
+        const stored = localStorage.getItem('wk-theme');
+        if (stored === 'light' || stored === 'dark') {
+            initialTheme = stored;
+        }
+    } catch (e) {
+        console.warn('Could not read from localStorage', e);
+    }
+
+    return {
+        mode: 'EASY',
+        theme: initialTheme,
+        activeTab: 'GROUP',
+        groupMatches: generateInitialGroupMatches(),
+        knockoutMatches: generateInitialKnockoutMatches(),
+        selectedThirds: [],
+        isThirdsModalDismissed: false,
+    };
+};
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -36,6 +51,26 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const setMode = (mode: PredictionMode) => {
         setState(prev => ({ ...prev, mode }));
     };
+
+    const setTheme = (theme: Theme) => {
+        setState(prev => ({ ...prev, theme }));
+    };
+
+    // Apply theme changes to document and persist preference whenever it changes
+    useEffect(() => {
+        const root = document.documentElement;
+        if (state.theme === 'light') {
+            root.classList.add('light');
+        } else {
+            root.classList.remove('light');
+        }
+
+        try {
+            localStorage.setItem('wk-theme', state.theme);
+        } catch (e) {
+            console.warn('Could not save to localStorage', e);
+        }
+    }, [state.theme]);
 
     const setActiveTab = (activeTab: ViewTab) => {
         setState(prev => ({ ...prev, activeTab }));
@@ -178,6 +213,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const contextValue = React.useMemo(() => ({
         state,
         setMode,
+        setTheme,
         setActiveTab,
         updateGroupMatchScore,
         updateGroupMatchEasyResult,

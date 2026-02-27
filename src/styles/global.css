@@ -44,6 +44,36 @@
   --header-height: 80px;
 }
 
+/* Light Mode Overrides */
+:root.light {
+  /* Keep primary colors vibrant or tune them lightly if needed */
+  /* --color-primary: #d583ff; */
+  /* --color-secondary: #ff0055; */
+  /* --color-tertiary: #fffb00; */
+  /* --color-quaternary: #00e5ff; */
+
+  /* Light Mode Backgrounds */
+  --bg-base: #f4f4f6;
+  --bg-surface: rgba(0, 0, 0, 0.03);
+  --bg-surface-hover: rgba(0, 0, 0, 0.08);
+  --bg-glass: rgba(255, 255, 255, 0.6);
+
+  /* Light Mode Text Colors */
+  --text-primary: #111111;
+  --text-secondary: #4b4b5e;
+  --text-muted: #888891;
+
+  /* Light Mode Borders */
+  --border-subtle: rgba(0, 0, 0, 0.08);
+
+  /* Shadows and Glows tuned for light theme */
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.12);
+  --glow-primary: 0 0 20px rgba(169, 0, 255, 0.15);
+  /* Purple soft glow instead of yellow */
+}
+
 /* Base Resets & Global Styles */
 * {
   box-sizing: border-box;
@@ -95,6 +125,21 @@ body::after {
   background-position: center center;
   z-index: -1;
   pointer-events: none;
+}
+
+:root.light body::before {
+  /* Increase lava lamp visibility slightly for light mode */
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(0, 230, 118, 0.35) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(169, 0, 255, 0.35) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(169, 0, 255, 0.3) 0%, transparent 50%);
+}
+
+:root.light body::after {
+  /* Darker grid pattern for light mode */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
 }
 
 @keyframes lavaLamp {
