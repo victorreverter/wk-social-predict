@@ -46,6 +46,11 @@
     border: 1px solid var(--border-subtle);
 }
 
+:root.light .mode-switcher,
+:root.light .tab-switcher {
+    background: rgba(255, 255, 255, 0.8);
+}
+
 .mode-btn,
 .tab-btn {
     padding: 0.5rem 1rem;
@@ -65,6 +70,11 @@
 .mode-btn:not(.active):hover,
 .tab-btn:not(.active):hover {
     color: white;
+}
+
+:root.light .mode-btn:not(.active):hover,
+:root.light .tab-btn:not(.active):hover {
+    color: var(--text-primary);
 }
 
 .reset-btn {

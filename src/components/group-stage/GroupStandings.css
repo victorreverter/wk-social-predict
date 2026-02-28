@@ -76,6 +76,11 @@
     font-weight: 700;
 }
 
+:root.light .qualified td.pos-col {
+    color: #00ca65;
+    /* vibrant green for contrast on light mode */
+}
+
 .possible-qualifier td {
     background: rgba(255, 0, 85, 0.05);
 }
