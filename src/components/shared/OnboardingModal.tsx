@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useApp } from '../../context/AppContext';
 import './OnboardingModal.css';
 
 export const OnboardingModal: React.FC = () => {
+    const { state, setHelpModalOpen } = useApp();
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -15,9 +17,12 @@ export const OnboardingModal: React.FC = () => {
     const handleDismiss = () => {
         localStorage.setItem('hasSeenOnboarding', 'true');
         setIsVisible(false);
+        setHelpModalOpen(false);
     };
 
-    if (!isVisible) return null;
+    const showModal = isVisible || state.isHelpModalOpen;
+
+    if (!showModal) return null;
 
     return (
         <div className="onboarding-overlay">

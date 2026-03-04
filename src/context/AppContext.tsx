@@ -15,6 +15,7 @@ interface AppContextType {
     updateKnockoutMatchEasyResult: (matchId: string, result: ResultType) => void;
     setSelectedThirds: (teamIds: string[]) => void;
     setThirdsModalDismissed: (dismissed: boolean) => void;
+    setHelpModalOpen: (isOpen: boolean) => void;
     resetPredictions: () => void;
     autoFillGroups: () => void;
 }
@@ -39,6 +40,7 @@ const getFreshState = (): AppState => {
         knockoutMatches: generateInitialKnockoutMatches(),
         selectedThirds: [],
         isThirdsModalDismissed: false,
+        isHelpModalOpen: false,
     };
 };
 
@@ -191,6 +193,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setState(prev => ({ ...prev, isThirdsModalDismissed: dismissed }));
     };
 
+    const setHelpModalOpen = (isOpen: boolean) => {
+        setState(prev => ({ ...prev, isHelpModalOpen: isOpen }));
+    };
+
     const autoFillGroups = () => {
         setState(prev => {
             const tempGroups = { ...prev.groupMatches };
@@ -225,6 +231,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         updateKnockoutMatchEasyResult,
         setSelectedThirds,
         setThirdsModalDismissed,
+        setHelpModalOpen,
         resetPredictions,
         autoFillGroups
     }), [state]); // Only re-create context object if state actually changes

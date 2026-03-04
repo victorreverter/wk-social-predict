@@ -130,6 +130,28 @@
     transform: translateY(-2px);
 }
 
+.help-icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-secondary);
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.help-icon-btn:hover {
+    border-color: var(--color-quaternary);
+    color: var(--color-quaternary);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+    transform: translateY(-2px);
+}
+
 @media (max-width: 768px) {
     .app-header {
         flex-direction: column;

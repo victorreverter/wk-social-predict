@@ -53,4 +53,6 @@ export interface AppState {
   knockoutMatches: Record<string, Match>;
   selectedThirds: string[]; // IDs of the chosen 8 best 3rd placed teams
   isThirdsModalDismissed: boolean;
+  isHelpModalOpen: boolean;
 }
+

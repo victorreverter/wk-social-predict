@@ -3,7 +3,7 @@ import { ThemeToggle } from '../shared/ThemeToggle';
 import './Header.css';
 
 export const Header: React.FC = () => {
-    const { state, setMode, setActiveTab, resetPredictions, autoFillGroups, setThirdsModalDismissed } = useApp();
+    const { state, setMode, setActiveTab, resetPredictions, autoFillGroups, setThirdsModalDismissed, setHelpModalOpen } = useApp();
     const { mode, activeTab, groupMatches } = state;
 
     const totalGroupMatches = Object.keys(groupMatches).length;
@@ -65,6 +65,13 @@ export const Header: React.FC = () => {
                 )}
                 <button className="auto-fill-btn" onClick={autoFillGroups}>
                     Auto-Fill Groups
+                </button>
+                <button
+                    className="help-icon-btn"
+                    onClick={() => setHelpModalOpen(true)}
+                    title="How to use"
+                >
+                    ?
                 </button>
                 <ThemeToggle />
             </div>
