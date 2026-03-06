@@ -35,6 +35,12 @@ export const Header: React.FC = () => {
                     >
                         Bracket
                     </button>
+                    <button
+                        className={`tab-btn ${activeTab === 'AWARDS' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('AWARDS')}
+                    >
+                        Awards
+                    </button>
                 </div>
 
                 <div className="mode-switcher">

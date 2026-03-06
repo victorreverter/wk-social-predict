@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import type { AppState, PredictionMode, ViewTab, MatchScore, ResultType, Match, MatchStatus, Theme } from '../types';
+import type { AppState, PredictionMode, ViewTab, MatchScore, ResultType, Match, MatchStatus, Theme, AwardsState } from '../types';
 import { generateInitialGroupMatches } from '../utils/data-init';
 import { generateInitialKnockoutMatches, updateKnockoutBracket } from '../utils/bracket-logic';
 
@@ -13,6 +13,7 @@ interface AppContextType {
     updateGroupMatchEasyResult: (matchId: string, result: ResultType) => void;
     updateKnockoutMatchScore: (matchId: string, score: MatchScore) => void;
     updateKnockoutMatchEasyResult: (matchId: string, result: ResultType) => void;
+    updateAward: (category: keyof AwardsState, value: string) => void;
     setSelectedThirds: (teamIds: string[]) => void;
     setThirdsModalDismissed: (dismissed: boolean) => void;
     setHelpModalOpen: (isOpen: boolean) => void;
@@ -41,6 +42,19 @@ const getFreshState = (): AppState => {
         selectedThirds: [],
         isThirdsModalDismissed: false,
         isHelpModalOpen: false,
+        awards: {
+            goldenBall: '',
+            silverBall: '',
+            bronzeBall: '',
+            goldenBoot: '',
+            silverBoot: '',
+            bronzeBoot: '',
+            goldenGlove: '',
+            fifaYoungPlayer: '',
+            mostYellowCards: '',
+            mostRedCards: '',
+            fifaFairPlay: ''
+        }
     };
 };
 
@@ -174,6 +188,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         });
     };
 
+    const updateAward = (category: keyof AwardsState, value: string) => {
+        setState(prev => ({
+            ...prev,
+            awards: {
+                ...prev.awards,
+                [category]: value
+            }
+        }));
+    };
+
     const resetPredictions = () => {
         setState(getFreshState());
     };
@@ -229,6 +253,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         updateGroupMatchEasyResult,
         updateKnockoutMatchScore,
         updateKnockoutMatchEasyResult,
+        updateAward,
         setSelectedThirds,
         setThirdsModalDismissed,
         setHelpModalOpen,

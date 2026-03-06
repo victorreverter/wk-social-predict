@@ -1,7 +1,7 @@
 // types/index.ts
 
 export type PredictionMode = 'EASY' | 'HARD';
-export type ViewTab = 'GROUP' | 'BRACKET';
+export type ViewTab = 'GROUP' | 'BRACKET' | 'AWARDS';
 export type MatchStatus = 'NOT_PLAYED' | 'FINISHED';
 export type ResultType = 'HOME_WIN' | 'AWAY_WIN' | 'DRAW';
 export type Theme = 'light' | 'dark';
@@ -45,6 +45,20 @@ export interface GroupStanding {
   points: number;
 }
 
+export interface AwardsState {
+  goldenBall: string;
+  silverBall: string;
+  bronzeBall: string;
+  goldenBoot: string;
+  silverBoot: string;
+  bronzeBoot: string;
+  goldenGlove: string;
+  fifaYoungPlayer: string;
+  mostYellowCards: string;
+  mostRedCards: string;
+  fifaFairPlay: string;
+}
+
 export interface AppState {
   mode: PredictionMode;
   theme: Theme;
@@ -54,5 +68,6 @@ export interface AppState {
   selectedThirds: string[]; // IDs of the chosen 8 best 3rd placed teams
   isThirdsModalDismissed: boolean;
   isHelpModalOpen: boolean;
+  awards: AwardsState;
 }
 

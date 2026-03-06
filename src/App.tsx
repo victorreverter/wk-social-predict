@@ -4,6 +4,7 @@ import { GroupView } from './components/group-stage/GroupView';
 import { BracketTree } from './components/knockout-stage/BracketTree';
 import { ThirdPlaceSelection } from './components/shared/ThirdPlaceSelection';
 import { OnboardingModal } from './components/shared/OnboardingModal';
+import { AwardsView } from './components/awards/AwardsView';
 import { useApp } from './context/AppContext';
 import './styles/global.css';
 
@@ -11,7 +12,9 @@ const MainContent = () => {
   const { state } = useApp();
   return (
     <main className="main-content">
-      {state.activeTab === 'GROUP' ? <GroupView /> : <BracketTree />}
+      {state.activeTab === 'GROUP' && <GroupView />}
+      {state.activeTab === 'BRACKET' && <BracketTree />}
+      {state.activeTab === 'AWARDS' && <AwardsView />}
       <ThirdPlaceSelection />
     </main>
   );
