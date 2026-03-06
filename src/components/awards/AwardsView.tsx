@@ -2,18 +2,18 @@ import { useApp } from '../../context/AppContext';
 import type { AwardsState } from '../../types';
 import './AwardsView.css';
 
-const AWARD_CATEGORIES: { key: keyof AwardsState; label: string; icon: string }[] = [
-    { key: 'goldenBall', label: 'Golden Ball (MVP)', icon: '🏆' },
-    { key: 'silverBall', label: 'Silver Ball', icon: '🥈' },
-    { key: 'bronzeBall', label: 'Bronze Ball', icon: '🥉' },
-    { key: 'goldenBoot', label: 'Golden Boot (Top Scorer)', icon: '⚽' },
-    { key: 'silverBoot', label: 'Silver Boot', icon: '👟' },
-    { key: 'bronzeBoot', label: 'Bronze Boot', icon: '👞' },
-    { key: 'goldenGlove', label: 'Golden Glove (Best GK)', icon: '🧤' },
-    { key: 'fifaYoungPlayer', label: 'Young Player Award', icon: '⭐' },
-    { key: 'mostYellowCards', label: 'Most Yellow Cards (Player)', icon: '🟨' },
-    { key: 'mostRedCards', label: 'Most Red Cards (Player)', icon: '🟥' },
-    { key: 'fifaFairPlay', label: 'Fair Play Award (Team)', icon: '🤝' },
+const AWARD_CATEGORIES: { key: keyof AwardsState; label: string; icon: string; shortPlaceholder: string }[] = [
+    { key: 'goldenBall', label: 'Golden Ball (MVP)', icon: '🏆', shortPlaceholder: 'Predict MVP' },
+    { key: 'silverBall', label: 'Silver Ball', icon: '🥈', shortPlaceholder: 'Predict Silver Ball' },
+    { key: 'bronzeBall', label: 'Bronze Ball', icon: '🥉', shortPlaceholder: 'Predict Bronze Ball' },
+    { key: 'goldenBoot', label: 'Golden Boot (Top Scorer)', icon: '⚽', shortPlaceholder: 'Predict Top Scorer' },
+    { key: 'silverBoot', label: 'Silver Boot', icon: '👟', shortPlaceholder: 'Predict Silver Boot' },
+    { key: 'bronzeBoot', label: 'Bronze Boot', icon: '👞', shortPlaceholder: 'Predict Bronze Boot' },
+    { key: 'goldenGlove', label: 'Golden Glove (Best GK)', icon: '🧤', shortPlaceholder: 'Predict Best GK' },
+    { key: 'fifaYoungPlayer', label: 'Young Player Award', icon: '⭐', shortPlaceholder: 'Predict Young Player' },
+    { key: 'mostYellowCards', label: 'Most Yellow Cards (Player)', icon: '🟨', shortPlaceholder: 'Predict Player' },
+    { key: 'mostRedCards', label: 'Most Red Cards (Player)', icon: '🟥', shortPlaceholder: 'Predict Player' },
+    { key: 'fifaFairPlay', label: 'Fair Play Award (Team)', icon: '🤝', shortPlaceholder: 'Predict Fair Play Team' },
 ];
 
 export const AwardsView: React.FC = () => {
@@ -28,7 +28,7 @@ export const AwardsView: React.FC = () => {
             </header>
 
             <div className="awards-grid">
-                {AWARD_CATEGORIES.map(({ key, label, icon }) => (
+                {AWARD_CATEGORIES.map(({ key, label, icon, shortPlaceholder }) => (
                     <div key={key} className="award-card glass-panel">
                         <div className="award-icon">{icon}</div>
                         <div className="award-info">
@@ -39,7 +39,7 @@ export const AwardsView: React.FC = () => {
                                 id={`award-${key}`}
                                 type="text"
                                 className="award-input"
-                                placeholder={`Who wins the ${label}?`}
+                                placeholder={shortPlaceholder}
                                 value={awards[key] || ''}
                                 onChange={(e) => updateAward(key, e.target.value)}
                             />
