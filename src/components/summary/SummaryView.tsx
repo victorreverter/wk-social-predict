@@ -97,6 +97,13 @@ export const SummaryView: React.FC = () => {
                                 {quarterFinals.map(id => <div key={id} className="summary-team">{getTeamName(id)}</div>)}
                             </div>
                         </div>
+
+                        <div className="progression-tier">
+                            <h4>Round of 16</h4>
+                            <div className="team-list list-16">
+                                {roundOf16.map(id => <div key={id} className="summary-team">{getTeamName(id)}</div>)}
+                            </div>
+                        </div>
                     </div>
 
                     <div className="summary-section glass-panel">

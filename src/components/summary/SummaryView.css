@@ -112,6 +112,11 @@
     grid-template-columns: repeat(4, 1fr);
 }
 
+.team-list.list-16 {
+    grid-template-columns: repeat(4, 1fr);
+    font-size: 0.85rem;
+}
+
 .summary-team {
     background: rgba(255, 255, 255, 0.05);
     padding: 0.5rem;
