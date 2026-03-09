@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import './OnboardingModal.css';
 
@@ -7,7 +7,6 @@ export const OnboardingModal: React.FC = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        // Check local storage to see if the user has already seen the onboarding
         const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
         if (!hasSeenOnboarding) {
             setIsVisible(true);
@@ -20,13 +19,29 @@ export const OnboardingModal: React.FC = () => {
         setHelpModalOpen(false);
     };
 
+    // Close when clicking the dark backdrop (but not inside the modal itself)
+    const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget) {
+            handleDismiss();
+        }
+    };
+
     const showModal = isVisible || state.isHelpModalOpen;
 
     if (!showModal) return null;
 
     return (
-        <div className="onboarding-overlay">
+        <div className="onboarding-overlay" onClick={handleOverlayClick}>
             <div className="onboarding-modal glass-panel">
+                {/* Close Button */}
+                <button
+                    className="onboarding-close-btn"
+                    onClick={handleDismiss}
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
                 <h2 className="onboarding-title text-gradient">Welcome to WC 2026 Predictor!</h2>
 
                 <div className="onboarding-content">
