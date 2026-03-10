@@ -279,6 +279,43 @@
     .classified-list {
         grid-template-columns: 1fr;
     }
+
+    .team-list.list-16,
+    .team-list.list-8,
+    .team-list.list-4 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .champion-card {
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+
+    .champion-team-wrap h2 {
+        font-size: 2rem;
+    }
+
+    .champion-flag {
+        width: 48px;
+    }
+
+    .champion-card .champion-icon {
+        font-size: 2.5rem;
+    }
+
+    .team-list.list-16,
+    .team-list.list-8,
+    .team-list.list-4,
+    .team-list.list-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-team {
+        justify-content: flex-start;
+        padding: 0.5rem 1rem;
+    }
 }
 
 /* ─── Tournament XI Summary Section ─────────────────────── */
