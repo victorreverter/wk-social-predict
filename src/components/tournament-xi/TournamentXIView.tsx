@@ -1,23 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import './TournamentXIView.css';
+
+type FormationConfig = {
+    name: string;
+    rows: {
+        rowClass: string;
+        slots: { dataKey: string; badge: string }[];
+    }[];
+};
+
+const FORMATIONS: Record<string, FormationConfig> = {
+    '4-2-3-1': {
+        name: '4-2-3-1',
+        rows: [
+            { rowClass: 'st', slots: [{ dataKey: 'ST', badge: 'ST' }] },
+            { rowClass: 'am', slots: [{ dataKey: 'LAM', badge: 'LAM' }, { dataKey: 'CAM', badge: 'CAM' }, { dataKey: 'RAM', badge: 'RAM' }] },
+            { rowClass: 'dm', slots: [{ dataKey: 'LDM', badge: 'LDM' }, { dataKey: 'RDM', badge: 'RDM' }] },
+            { rowClass: 'def', slots: [{ dataKey: 'LB', badge: 'LB' }, { dataKey: 'LCB', badge: 'LCB' }, { dataKey: 'RCB', badge: 'RCB' }, { dataKey: 'RB', badge: 'RB' }] },
+            { rowClass: 'gk', slots: [{ dataKey: 'GK', badge: 'GK' }] },
+        ]
+    },
+    '4-3-3': {
+        name: '4-3-3',
+        rows: [
+            { rowClass: 'fwd', slots: [{ dataKey: 'LAM', badge: 'LW' }, { dataKey: 'ST', badge: 'ST' }, { dataKey: 'RAM', badge: 'RW' }] },
+            { rowClass: 'mid', slots: [{ dataKey: 'LDM', badge: 'LCM' }, { dataKey: 'CAM', badge: 'CM' }, { dataKey: 'RDM', badge: 'RCM' }] },
+            { rowClass: 'def', slots: [{ dataKey: 'LB', badge: 'LB' }, { dataKey: 'LCB', badge: 'LCB' }, { dataKey: 'RCB', badge: 'RCB' }, { dataKey: 'RB', badge: 'RB' }] },
+            { rowClass: 'gk', slots: [{ dataKey: 'GK', badge: 'GK' }] },
+        ]
+    },
+    '4-4-2': {
+        name: '4-4-2',
+        rows: [
+            { rowClass: 'fwd', slots: [{ dataKey: 'CAM', badge: 'ST' }, { dataKey: 'ST', badge: 'ST' }] },
+            { rowClass: 'mid', slots: [{ dataKey: 'LAM', badge: 'LM' }, { dataKey: 'LDM', badge: 'CM' }, { dataKey: 'RDM', badge: 'CM' }, { dataKey: 'RAM', badge: 'RM' }] },
+            { rowClass: 'def', slots: [{ dataKey: 'LB', badge: 'LB' }, { dataKey: 'LCB', badge: 'LCB' }, { dataKey: 'RCB', badge: 'RCB' }, { dataKey: 'RB', badge: 'RB' }] },
+            { rowClass: 'gk', slots: [{ dataKey: 'GK', badge: 'GK' }] },
+        ]
+    }
+};
 
 export const TournamentXIView: React.FC = () => {
     const { state, updateTournamentXI } = useApp();
     const { tournamentXI, theme } = state;
 
-    // Define positions in a 1-4-2-3-1 layout
-    const positionGroups = [
-        { row: 'ST', positions: ['ST'] },
-        { row: 'AM', positions: ['LAM', 'CAM', 'RAM'] },
-        { row: 'DM', positions: ['LDM', 'RDM'] },
-        { row: 'DEF', positions: ['LB', 'LCB', 'RCB', 'RB'] },
-        { row: 'GK', positions: ['GK'] }
-    ];
-
-    const getPositionLabel = (pos: string) => {
-        return pos;
-    };
+    const [selectedFormation, setSelectedFormation] = useState<string>('4-2-3-1');
+    const activeFormation = FORMATIONS[selectedFormation];
 
     const handleNameChange = (pos: string, value: string) => {
         updateTournamentXI(pos, value);
@@ -27,7 +56,19 @@ export const TournamentXIView: React.FC = () => {
         <div className="tournament-xi-container fade-in">
             <div className="xi-header">
                 <h2>Team of the Tournament</h2>
-                <p>Select your ultimate 11 in a 1-4-2-3-1 formation</p>
+                <p>Select your ultimate 11 in a {selectedFormation} formation</p>
+            </div>
+
+            <div className="formation-selector">
+                {Object.keys(FORMATIONS).map(fmt => (
+                    <button 
+                        key={fmt} 
+                        className={`formation-btn ${selectedFormation === fmt ? 'active' : ''}`}
+                        onClick={() => setSelectedFormation(fmt)}
+                    >
+                        {fmt}
+                    </button>
+                ))}
             </div>
 
             <div className={`soccer-field ${theme}`}>
@@ -75,20 +116,20 @@ export const TournamentXIView: React.FC = () => {
                 </svg>
 
                 <div className="players-layout">
-                    {positionGroups.map((group) => (
-                        <div key={group.row} className={`position-row row-${group.row.toLowerCase()}`}>
-                            {group.positions.map((pos) => (
-                                <div key={pos} className="player-slot">
+                    {activeFormation.rows.map((group, rowIndex) => (
+                        <div key={`${group.rowClass}-${rowIndex}`} className={`position-row row-${group.rowClass}`}>
+                            {group.slots.map(({ dataKey, badge }, slotIndex) => (
+                                <div key={`${dataKey}-${slotIndex}`} className="player-slot">
                                     <div className="player-shirt">
                                         <div className="shirt-icon"></div>
-                                        <span className="position-badge">{getPositionLabel(pos)}</span>
+                                        <span className="position-badge">{badge}</span>
                                     </div>
                                     <input
                                         type="text"
                                         className="player-input"
                                         placeholder="Player Name"
-                                        value={tournamentXI[pos] || ''}
-                                        onChange={(e) => handleNameChange(pos, e.target.value)}
+                                        value={tournamentXI[dataKey] || ''}
+                                        onChange={(e) => handleNameChange(dataKey, e.target.value)}
                                         maxLength={20}
                                     />
                                 </div>

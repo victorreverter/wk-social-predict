@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { initialTeams } from '../../utils/data-init';
 import { calculateGroupStandings } from '../../utils/standings';
@@ -65,14 +66,44 @@ const getMatchLoser = (match?: Match): string => {
     return '';
 };
 
-// Formation rows for the 1-4-2-3-1 layout
-const XI_ROWS = [
-    { row: 'st', positions: ['ST'] },
-    { row: 'am', positions: ['LAM', 'CAM', 'RAM'] },
-    { row: 'dm', positions: ['LDM', 'RDM'] },
-    { row: 'def', positions: ['LB', 'LCB', 'RCB', 'RB'] },
-    { row: 'gk', positions: ['GK'] },
-];
+type FormationConfig = {
+    name: string;
+    rows: {
+        rowClass: string;
+        slots: { dataKey: string; badge: string }[];
+    }[];
+};
+
+const FORMATIONS: Record<string, FormationConfig> = {
+    '4-2-3-1': {
+        name: '4-2-3-1',
+        rows: [
+            { rowClass: 'st', slots: [{ dataKey: 'ST', badge: 'ST' }] },
+            { rowClass: 'am', slots: [{ dataKey: 'LAM', badge: 'LAM' }, { dataKey: 'CAM', badge: 'CAM' }, { dataKey: 'RAM', badge: 'RAM' }] },
+            { rowClass: 'dm', slots: [{ dataKey: 'LDM', badge: 'LDM' }, { dataKey: 'RDM', badge: 'RDM' }] },
+            { rowClass: 'def', slots: [{ dataKey: 'LB', badge: 'LB' }, { dataKey: 'LCB', badge: 'LCB' }, { dataKey: 'RCB', badge: 'RCB' }, { dataKey: 'RB', badge: 'RB' }] },
+            { rowClass: 'gk', slots: [{ dataKey: 'GK', badge: 'GK' }] },
+        ]
+    },
+    '4-3-3': {
+        name: '4-3-3',
+        rows: [
+            { rowClass: 'fwd', slots: [{ dataKey: 'LAM', badge: 'LW' }, { dataKey: 'ST', badge: 'ST' }, { dataKey: 'RAM', badge: 'RW' }] },
+            { rowClass: 'mid', slots: [{ dataKey: 'LDM', badge: 'LCM' }, { dataKey: 'CAM', badge: 'CM' }, { dataKey: 'RDM', badge: 'RCM' }] },
+            { rowClass: 'def', slots: [{ dataKey: 'LB', badge: 'LB' }, { dataKey: 'LCB', badge: 'LCB' }, { dataKey: 'RCB', badge: 'RCB' }, { dataKey: 'RB', badge: 'RB' }] },
+            { rowClass: 'gk', slots: [{ dataKey: 'GK', badge: 'GK' }] },
+        ]
+    },
+    '4-4-2': {
+        name: '4-4-2',
+        rows: [
+            { rowClass: 'fwd', slots: [{ dataKey: 'CAM', badge: 'ST' }, { dataKey: 'ST', badge: 'ST' }] },
+            { rowClass: 'mid', slots: [{ dataKey: 'LAM', badge: 'LM' }, { dataKey: 'LDM', badge: 'CM' }, { dataKey: 'RDM', badge: 'CM' }, { dataKey: 'RAM', badge: 'RM' }] },
+            { rowClass: 'def', slots: [{ dataKey: 'LB', badge: 'LB' }, { dataKey: 'LCB', badge: 'LCB' }, { dataKey: 'RCB', badge: 'RCB' }, { dataKey: 'RB', badge: 'RB' }] },
+            { rowClass: 'gk', slots: [{ dataKey: 'GK', badge: 'GK' }] },
+        ]
+    }
+};
 
 export const SummaryView: React.FC = () => {
     const { state } = useApp();
@@ -87,6 +118,9 @@ export const SummaryView: React.FC = () => {
     const champion = getMatchWinner(knockoutMatches['k_F_1']);
     const secondPlaceWinner = getMatchLoser(knockoutMatches['k_F_1']);
     const thirdPlaceWinner = getMatchWinner(knockoutMatches['k_3RD_1']);
+
+    const [selectedFormation, setSelectedFormation] = useState<string>('4-2-3-1');
+    const activeFormation = FORMATIONS[selectedFormation];
 
     return (
         <div className="summary-view fade-in">
@@ -226,7 +260,19 @@ export const SummaryView: React.FC = () => {
             {/* ── Team of the Tournament ── */}
             <div className="summary-section xi-summary-section glass-panel">
                 <h3>⚽ Your Team of the Tournament</h3>
-                <p className="section-desc">Your 1-4-2-3-1 selection for the best XI of the tournament.</p>
+                <p className="section-desc">Your selection for the best XI of the tournament.</p>
+                
+                <div className="formation-selector">
+                    {Object.keys(FORMATIONS).map(fmt => (
+                        <button 
+                            key={fmt} 
+                            className={`formation-btn ${selectedFormation === fmt ? 'active' : ''}`}
+                            onClick={() => setSelectedFormation(fmt)}
+                        >
+                            {fmt}
+                        </button>
+                    ))}
+                </div>
 
                 <div className="xi-summary-field-wrap">
                     {/* SVG pitch (background + lines) */}
@@ -252,16 +298,16 @@ export const SummaryView: React.FC = () => {
 
                     {/* Players layout */}
                     <div className="xi-summary-players">
-                        {XI_ROWS.map(({ row, positions }) => (
-                            <div key={row} className={`xi-summary-row xi-row-${row}`}>
-                                {positions.map(pos => (
-                                    <div key={pos} className="xi-summary-slot">
+                        {activeFormation.rows.map(({ rowClass, slots }, rowIndex) => (
+                            <div key={`${rowClass}-${rowIndex}`} className={`xi-summary-row xi-row-${rowClass}`}>
+                                {slots.map(({ dataKey, badge }, slotIndex) => (
+                                    <div key={`${dataKey}-${slotIndex}`} className="xi-summary-slot">
                                         <div className="xi-summary-shirt">
                                             <div className="xi-shirt-icon" />
-                                            <span className="xi-pos-badge">{pos}</span>
+                                            <span className="xi-pos-badge">{badge}</span>
                                         </div>
                                         <span className="xi-player-label">
-                                            {tournamentXI[pos] || '—'}
+                                            {tournamentXI[dataKey] || '—'}
                                         </span>
                                     </div>
                                 ))}
