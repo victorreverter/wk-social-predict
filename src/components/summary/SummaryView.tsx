@@ -96,7 +96,7 @@ export const SummaryView: React.FC = () => {
             </header>
 
             <div className="summary-section glass-panel">
-                <h3>👑 Tournament Champion</h3>
+                <h3>👑 Tournament Podium</h3>
                 <div className="champion-card">
                     <span className="champion-icon">🏆</span>
                     <div className="champion-team-wrap">
