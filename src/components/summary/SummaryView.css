@@ -609,6 +609,12 @@
     justify-content: space-between;
 }
 
+.xi-row-fwd-2 {
+    width: 45%;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
 .xi-row-mid {
     width: 85%;
     margin: 0 auto;

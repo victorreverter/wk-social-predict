@@ -33,7 +33,7 @@ const FORMATIONS: Record<string, FormationConfig> = {
     '4-4-2': {
         name: '4-4-2',
         rows: [
-            { rowClass: 'fwd', slots: [{ dataKey: 'CAM', badge: 'ST' }, { dataKey: 'ST', badge: 'ST' }] },
+            { rowClass: 'fwd-2', slots: [{ dataKey: 'CAM', badge: 'ST' }, { dataKey: 'ST', badge: 'ST' }] },
             { rowClass: 'mid', slots: [{ dataKey: 'LAM', badge: 'LM' }, { dataKey: 'LDM', badge: 'CM' }, { dataKey: 'RDM', badge: 'CM' }, { dataKey: 'RAM', badge: 'RM' }] },
             { rowClass: 'def', slots: [{ dataKey: 'LB', badge: 'LB' }, { dataKey: 'LCB', badge: 'LCB' }, { dataKey: 'RCB', badge: 'RCB' }, { dataKey: 'RB', badge: 'RB' }] },
             { rowClass: 'gk', slots: [{ dataKey: 'GK', badge: 'GK' }] },
@@ -42,7 +42,7 @@ const FORMATIONS: Record<string, FormationConfig> = {
     '3-5-2': {
         name: '3-5-2',
         rows: [
-            { rowClass: 'fwd', slots: [{ dataKey: 'ST1', badge: 'ST' }, { dataKey: 'ST2', badge: 'ST' }] },
+            { rowClass: 'fwd-2', slots: [{ dataKey: 'ST1', badge: 'ST' }, { dataKey: 'ST2', badge: 'ST' }] },
             { rowClass: 'mid', slots: [{ dataKey: 'LM', badge: 'LM' }, { dataKey: 'LCM', badge: 'LCM' }, { dataKey: 'CAM', badge: 'CAM' }, { dataKey: 'RCM', badge: 'RCM' }, { dataKey: 'RM', badge: 'RM' }] },
             { rowClass: 'def', slots: [{ dataKey: 'LCB', badge: 'LCB' }, { dataKey: 'CB', badge: 'CB' }, { dataKey: 'RCB', badge: 'RCB' }] },
             { rowClass: 'gk', slots: [{ dataKey: 'GK', badge: 'GK' }] },

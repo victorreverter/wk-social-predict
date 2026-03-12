@@ -109,6 +109,12 @@
     justify-content: space-between;
 }
 
+.row-fwd-2 {
+    width: 45%;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
 .row-mid {
     width: 85%;
     margin: 0 auto;
