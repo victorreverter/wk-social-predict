@@ -102,6 +102,15 @@ const FORMATIONS: Record<string, FormationConfig> = {
             { rowClass: 'def', slots: [{ dataKey: 'LB', badge: 'LB' }, { dataKey: 'LCB', badge: 'LCB' }, { dataKey: 'RCB', badge: 'RCB' }, { dataKey: 'RB', badge: 'RB' }] },
             { rowClass: 'gk', slots: [{ dataKey: 'GK', badge: 'GK' }] },
         ]
+    },
+    '3-5-2': {
+        name: '3-5-2',
+        rows: [
+            { rowClass: 'fwd', slots: [{ dataKey: 'ST1', badge: 'ST' }, { dataKey: 'ST2', badge: 'ST' }] },
+            { rowClass: 'mid', slots: [{ dataKey: 'LM', badge: 'LM' }, { dataKey: 'LCM', badge: 'LCM' }, { dataKey: 'CAM', badge: 'CAM' }, { dataKey: 'RCM', badge: 'RCM' }, { dataKey: 'RM', badge: 'RM' }] },
+            { rowClass: 'def', slots: [{ dataKey: 'LCB', badge: 'LCB' }, { dataKey: 'CB', badge: 'CB' }, { dataKey: 'RCB', badge: 'RCB' }] },
+            { rowClass: 'gk', slots: [{ dataKey: 'GK', badge: 'GK' }] },
+        ]
     }
 };
 
@@ -260,7 +269,7 @@ export const SummaryView: React.FC = () => {
             {/* ── Team of the Tournament ── */}
             <div className="summary-section xi-summary-section glass-panel">
                 <h3>⚽ Your Team of the Tournament</h3>
-                <p className="section-desc">Your selection for the best XI of the tournament.</p>
+                <p className="section-desc">Your ultimate XI selection in a {selectedFormation} formation.</p>
                 
                 <div className="formation-selector">
                     {Object.keys(FORMATIONS).map(fmt => (

@@ -603,6 +603,65 @@
     color: white;
 }
 
+.xi-row-fwd {
+    width: 75%;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+.xi-row-mid {
+    width: 85%;
+    margin: 0 auto;
+    justify-content: space-evenly;
+}
+
+.formation-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+    position: relative;
+    z-index: 5;
+}
+
+.formation-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.formation-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.formation-btn.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+}
+
+:root.light .formation-btn {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-secondary);
+}
+
+:root.light .formation-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--text-primary);
+}
+
+:root.light .formation-btn.active {
+    background: var(--color-primary);
+    color: white;
+}
+
 .xi-summary-slot {
     display: flex;
     flex-direction: column;
