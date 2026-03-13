@@ -63,8 +63,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
-    padding: 3rem;
+    gap: 1.25rem;
+    padding: 2rem;
     background: rgba(255, 215, 0, 0.1);
     border: 2px solid rgba(255, 215, 0, 0.3);
     border-radius: 16px;
@@ -72,7 +72,7 @@
 }
 
 .champion-card .champion-icon {
-    font-size: 4rem;
+    font-size: 3.5rem;
     animation: bounce 2s infinite;
 }
 
@@ -81,18 +81,18 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 .champion-flag {
-    width: 64px;
+    width: 52px;
     height: auto;
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .champion-team-wrap h2 {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     color: #ffd700;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -105,17 +105,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.75rem;
-    padding: 2rem 2.5rem;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
     background: rgba(192, 192, 192, 0.1);
     border: 2px solid rgba(192, 192, 192, 0.4);
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(192, 192, 192, 0.15);
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
 .silver-card .silver-icon {
-    font-size: 3.2rem;
+    font-size: 2.5rem;
 }
 
 .silver-team-wrap {
@@ -123,22 +123,22 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 1.2rem;
+    gap: 1rem;
 }
 
 .silver-flag {
-    width: 56px;
+    width: 40px;
     height: auto;
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .silver-team-wrap h3 {
-    font-size: 2.8rem;
+    font-size: 2rem;
     color: #e0e0e0;
     /* Sleek silver */
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     text-shadow: 0 0 15px rgba(224, 224, 224, 0.4);
     margin: 0;
     border-bottom: none;
@@ -149,17 +149,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
-    padding: 1.5rem 2rem;
+    gap: 1rem;
+    padding: 1.25rem 1.75rem;
     background: rgba(205, 127, 50, 0.1);
     border: 2px solid rgba(205, 127, 50, 0.3);
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(205, 127, 50, 0.1);
-    margin-top: 1rem;
+    margin-top: 0.75rem;
 }
 
 .bronze-card .bronze-icon {
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
 
 .bronze-team-wrap {
@@ -167,22 +167,22 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.85rem;
 }
 
 .bronze-flag {
-    width: 48px;
+    width: 32px;
     height: auto;
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .bronze-team-wrap h3 {
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     color: #cd7f32;
     /* Bronze color */
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     text-shadow: 0 0 15px rgba(205, 127, 50, 0.5);
     margin: 0;
     border-bottom: none;
