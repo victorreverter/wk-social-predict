@@ -26,8 +26,9 @@ export interface Match {
   homeTeamId: string;
   awayTeamId: string;
   date: string; // ISO string
-  stage: string; // 'GROUP', 'R32', 'R16', 'QF', 'SF', 'F'
+  stage: string; // 'GROUP', 'R32', 'R16', 'QF', 'SF', '3RD', 'F'
   group?: string; // e.g., 'A'
+  venue?: string; // Official stadium name (knockout matches only)
   score: MatchScore;
   status: MatchStatus;
   result?: ResultType; // Derived in Easy mode, calculated in Hard

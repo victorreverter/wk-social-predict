@@ -82,7 +82,7 @@ export const BracketMatchNode: React.FC<Props> = React.memo(({ match, homeTeam, 
 
     return (
         <div className="bracket-match-node glass-panel">
-            <div className="match-id-badge">{match.id.replace('k_', '').toUpperCase()}</div>
+            <div className="match-id-badge">{match.id.startsWith('m') ? `M${match.id.slice(1)}` : match.id.replace('k_', '').toUpperCase()}</div>
 
             <div className="bracket-teams-container">
                 {renderTeam(homeTeam, match.score.homePenalties, true)}

@@ -10,6 +10,34 @@ import './BracketTree.css';
 const LEFT_STAGES = ['R32', 'R16', 'QF', 'SF'];
 const RIGHT_STAGES = ['SF', 'QF', 'R16', 'R32']; // Mirrored order for right side
 
+/**
+ * Explicit visual ordering of matches per stage per side.
+ * Derived from the official 2026 FIFA bracket tree:
+ *   LEFT side feeds → SF M101 (via QF M97 + QF M98)
+ *   RIGHT side feeds → SF M102 (via QF M99 + QF M100)
+ *
+ * Left R32 chains:
+ *   Chain A (→ QF M97): M74,M77 → R16 M89; M73,M75 → R16 M90
+ *   Chain B (→ QF M98): M83,M84 → R16 M93; M81,M82 → R16 M94
+ * Right R32 chains:
+ *   Chain C (→ QF M99): M76,M78 → R16 M91; M79,M80 → R16 M92
+ *   Chain D (→ QF M100): M86,M88 → R16 M95; M85,M87 → R16 M96
+ */
+const BRACKET_VISUAL_ORDER: { left: Record<string, number[]>; right: Record<string, number[]> } = {
+    left: {
+        R32: [74, 77, 73, 75, 83, 84, 81, 82],
+        R16: [89, 90, 93, 94],
+        QF:  [97, 98],
+        SF:  [101],
+    },
+    right: {
+        SF:  [102],
+        QF:  [99, 100],
+        R16: [91, 92, 95, 96],
+        R32: [76, 78, 79, 80, 86, 88, 85, 87],
+    },
+};
+
 export const BracketTree: React.FC = () => {
     const { state } = useApp();
     const [userName, setUserName] = useState('');
@@ -19,19 +47,24 @@ export const BracketTree: React.FC = () => {
         exportBracketToImage(matchesList, 'my-wc2026-bracket.jpg');
     };
 
-    // Helper: Split an array of matches strictly in half for left/right mapping
-    const getSplitMatches = (stageName: string, side: 'left' | 'right') => {
-        const stageMatches = matchesList.filter(m => m.stage === stageName);
-        const halfStringLength = Math.ceil(stageMatches.length / 2);
-        return side === 'left' ? stageMatches.slice(0, halfStringLength) : stageMatches.slice(halfStringLength);
+    // Returns matches in the correct visual order for the given stage side,
+    // mapped explicitly from the official 2026 FIFA bracket tree progression.
+    const getVisualMatches = (stageName: string, side: 'left' | 'right') => {
+        const orderNums = BRACKET_VISUAL_ORDER[side][stageName] ?? [];
+        return orderNums
+            .map(num => matchesList.find(m => m.id === `m${num}`))
+            .filter((m): m is Match => m !== undefined);
     };
 
-    // Render a generic column of matches based on split
+    // Render a generic column of matches in official bracket order
     const renderStageColumn = (stageName: string, side: 'left' | 'right') => {
-        const matches = getSplitMatches(stageName, side);
+        const matches = getVisualMatches(stageName, side);
+        const stageLabelMap: Record<string, string> = {
+            R32: 'Round of 32', R16: 'Round of 16', QF: 'Quarter-Final', SF: 'Semi-Final'
+        };
         return (
             <div key={`${side}-${stageName}`} className={`bracket-column stage-${stageName.toLowerCase()} ${side}-side`}>
-                <h3 className="stage-title">{stageName}</h3>
+                <h3 className="stage-title">{stageLabelMap[stageName] ?? stageName}</h3>
                 <div className="matches-vertical-flow">
                     {matches.map((match) => {
                         const homeTeam = initialTeams.find(t => t.id === match.homeTeamId);
