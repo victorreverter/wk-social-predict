@@ -48,6 +48,11 @@
     font-weight: 600;
 }
 
+.match-date-info .venue-time {
+    color: #4dd0e1;
+    font-weight: 600;
+}
+
 .bracket-teams-container {
     display: flex;
     flex-direction: column;

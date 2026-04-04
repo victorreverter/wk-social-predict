@@ -39,6 +39,16 @@
     color: var(--text-secondary);
 }
 
+.match-card-date .user-time {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.match-card-date .venue-time {
+    color: #4dd0e1;
+    font-weight: 600;
+}
+
 .match-teams {
     display: flex;
     justify-content: space-between;

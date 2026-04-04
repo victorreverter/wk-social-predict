@@ -93,9 +93,9 @@ export const BracketMatchNode: React.FC<Props> = React.memo(({ match, homeTeam, 
                 <div className="match-id-badge">{match.id.startsWith('m') ? `M${match.id.slice(1)}` : match.id.replace('k_', '').toUpperCase()}</div>
                 {match.date && !match.date.includes('TBD') && (
                     <div className="match-date-info" title={match.venue ? `Venue: ${match.venue}` : undefined}>
-                        <span className="user-time" title="Your Local Time">({formattedUserDate} local)</span>
+                        <span className="user-time" title="Your Local Time">({formattedUserDate} your time)</span>
                         {match.localTime && match.localTime !== 'TBD' && (
-                            <span className="venue-time" title="Venue Local Time"> • {match.localTime} match</span>
+                            <span className="venue-time" title="Venue Local Time"> • {match.localTime} match time</span>
                         )}
                     </div>
                 )}

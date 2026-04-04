@@ -34,12 +34,14 @@ export const MatchCard: React.FC<Props> = ({ match, homeTeam, awayTeam }) => {
                 <span className="match-card-id">{match.id.toUpperCase()}</span>
                 <span className="match-card-date">
                     {match.date && !match.date.includes('TBD') 
-                        ? new Date(match.date).toLocaleString(undefined, {
+                        ? <span className="user-time">{new Date(match.date).toLocaleString(undefined, {
                             month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                        }) + ' local' 
-                        : 'TBD'
+                        })} your time</span> 
+                        : <span className="user-time">TBD</span>
                     }
-                    {match.localTime ? ` • ${match.localTime} match` : ''}
+                    {match.localTime && match.localTime !== 'TBD' 
+                        ? <span className="venue-time"> • {match.localTime} match time</span> 
+                        : ''}
                 </span>
             </div>
             <div className="match-teams">
